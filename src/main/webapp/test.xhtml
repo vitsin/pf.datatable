@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html
+    xmlns:faces="jakarta.faces"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:f="jakarta.faces.core"
+    xmlns:h="jakarta.faces.html"
+    xmlns:pt="jakarta.faces.passthrough"
+    xmlns:c="jakarta.tags.core"
+    xmlns:fn="jakarta.tags.functions"
+    xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>PrimeFaces Test</title>
+        <h:outputScript name="test.js" />
+    </h:head>
+    <h:body>
+
+        <h1>#{testView.string}</h1>
+        
+        <div class="card">
+        	<h:form id="refresh">
+		       	<p:commandButton id="refreshTable" 
+					ajax="true" 
+					value="Refresh" 
+					update=":form:customerTable"
+					process=":form:customerTable"
+					icon="pi pi-refresh"/>
+			</h:form>
+        </div>
+        
+		<div class="card">
+		    <h:form id="form">
+		    	<h:panelGroup id="viewFormPanel" name="viewFormPanel">
+			        <p:dataTable var="customer" 
+			        	value="#{dtLazyView.lazyModel}" 
+			        	paginator="true" 
+			        	rows="10"
+	                    paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+	                    rowsPerPageTemplate="5,10,15" 
+	                    selectionMode="single"
+	                    selection="#{dtLazyView.selectedCustomer}"
+	                    id="customerTable"
+	                    size="small">
+			        
+		        		<p:ajax event="rowToggle" 
+	           				update="showProduct" 
+	           				process="showProduct" 
+	           				listener="#{testView.initProducts()}" />
+			                     
+						<p:column style="width:2%;">  
+				            <p:rowToggler/>
+				        </p:column>		
+	
+			            <p:column headerText="Name" filterBy="#{customer.name}">
+			                <h:outputText value="#{customer.name}"/>
+			            </p:column>
+			            
+			            <p:column headerText="Country" filterBy="#{customer.country}">
+			                <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{customer.country.name}"/>
+			            </p:column>
+			            
+			            <p:column headerText="Company" filterBy="#{customer.company}">
+			                <h:outputText value="#{customer.company}"/>
+			            </p:column>
+			            
+			            <p:column headerText="Representative" filterBy="#{customer.representative}">
+			                <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{customer.representative.name}"/>
+			            </p:column>
+			        
+				        <p:rowExpansion>
+					        <p:dataTable id="showProduct" 
+					        var="product" 
+					        value="#{testView.selectedProducts}" 
+					        rowKey="#{product.id}">
+					            <f:facet name="header">
+					                Product detailed information
+					            </f:facet>
+					            <p:column headerText="Name">
+					                <h:outputText value="#{product.name}"/>
+					            </p:column>
+					
+					            <p:column headerText="Price">
+					                <h:outputText value="#{product.price}">
+					                    <f:convertNumber type="currency" currencySymbol="$"/>
+					                </h:outputText>
+					            </p:column>
+					
+					            <p:column headerText="Category">
+					                <h:outputText value="#{product.category}"/>
+					            </p:column>
+					
+					            <p:column headerText="Reviews">
+					                <h:outputText value="#{product.name}"/>
+					            </p:column>
+					
+					            <p:column headerText="Status">
+					                <h:outputText value="#{product.inventoryStatus}"/>
+					            </p:column>		        
+					        </p:dataTable>
+				        </p:rowExpansion>
+					</p:dataTable>
+		    	</h:panelGroup>
+		    </h:form>
+		</div>
+    </h:body>
+</html>
