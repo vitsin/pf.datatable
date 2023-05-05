@@ -1,2 +1,2 @@
 # pf.datatable
-Refresh lazy datatable with rowToggler and rowExpansion
+PrimeFaces: Refresh lazy datatable with rowToggler and rowExpansion
