@@ -1,3 +1,6 @@
+This is a lazy p:dataTable example (with illogical dummy data) using rowToggler and rowExpansion
+
+
 ![PrimeFaces icon](https://www.primefaces.org/wp-content/uploads/2016/10/prime_logo_new.png)
 
 
